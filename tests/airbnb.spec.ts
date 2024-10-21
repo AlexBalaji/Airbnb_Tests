@@ -47,7 +47,6 @@ test('Test 1: Verify that the results match the search criteria'
   await expect(page.getByTestId('little-search-date')).toContainText(MONTHS[checkoutMonth]);
   await expect(page.getByTestId('little-search-guests')).toContainText('3');
   await expect(page.getByTestId('stays-page-heading')).toContainText('Rome');
-  await page.waitForTimeout(5000);
 });
 
 test('Test 2: Verify that the results and details page match the extra filters'
@@ -62,25 +61,20 @@ test('Test 2: Verify that the results and details page match the extra filters'
     await page.getByTestId('stepper-filter-item-min_bedrooms-stepper-increase-button').click();
     await page.getByText('Show more').click();
     await page.locator('#filter-item-amenities-7').click();
-    // await page.getByTestId('filter-item-amenities-7').click();
-    // await page.getByTestId('filter-item-amenities-7').click();
     await page.locator ("//div[contains(@class, 'ptiimno atm_7l_1p8m8iw dir dir-ltr')]").click();
-        await page.waitForTimeout(5000);
+    await page.waitForTimeout(5000);
 
-    //await page.locator('#card-container').nth(1).click();
     const cardContainers = await page.locator('[data-testid="card-container"]').all();
-    //pen26si dir dir-ltr
+   
       for (let i = 0; i < cardContainers.length; i++) {
         const card = cardContainers[i];
         const textContent = await card.textContent();
+
         if (textContent &&  textContent.includes('·') && textContent.includes('bedroom')){
           const textSplit = textContent.split('·')
-          // for (let j = 0; j < textSplit.length; j++ ) {
-          //   console.log(`textSplit ${j + 1} content:`, textSplit[j]);
           const indexOfBedrooms = textSplit[1].indexOf("bedroom") 
           const substringBeforeWord = textSplit[1].slice(0, indexOfBedrooms).trim();
           const numberOfBedrooms = parseInt(substringBeforeWord, 10);
-          //console.log(`Card ${i + 1} number of Bedrooms:`, numberOfBedrooms);
           expect (desiredBedrooms<=numberOfBedrooms)
         
       }
@@ -92,15 +86,6 @@ test('Test 2: Verify that the results and details page match the extra filters'
     await cardContainers[0].click();
     await page.waitForTimeout(5000);
     await page.click('//span[svg//path[@d="m6 6 20 20M26 6 6 26"]]');
-   // try to close popup window..... await page.locator('span.i3tjjh1.atm_mk_h2mmj6').click();
-    //await page.click('svg[aria-hidden="true"] path[d="m6 6 20 20M26 6 6 26"]');
-    //await page.click('span.i3tjjh1.atm_mk_h2mmj6');
-
-   // await page.click('button.l1ovpqvx');
     await page.waitForTimeout(5000);
    
   });
-
-  // test('Test 3: Verify that a property is displayed on the map correctly'
-  //   , async ({ page }) => {
-  //   });
